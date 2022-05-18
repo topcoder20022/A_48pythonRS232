@@ -1,0 +1,52 @@
+<!-- create form -->
+
+<h1 class="h2 border-bottom text-center">Print Targets</h1>
+<form ng-submit="userCtrl.printTargets()" style="margin-top: 30px;">
+	<div class="row align-items-center justify-content-center">
+		<div class="col-md-6 ">
+			<div class="card text-center ">
+				<div class="card-header ">
+					<b>Please select values</b>
+				</div>
+				<div class="card-body">
+					<div class="form-group">
+						<div class="input-group row">
+							<label class="labels col-md-5">Sets to print</label>
+							<select class="form-control dual_select col-md-7" ng-model="userCtrl.printtargets" style="font-size: 1rem">
+							  <option value="1">1</option>
+							  <option value="2">2</option>
+							  <option value="3">3</option>
+							  <option value="4">4</option>
+							  <option value="6">6</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group row">
+							<label class="labels col-md-5">Type of sets</label>
+							<select class="form-control dual_select col-md-7" ng-model="userCtrl.settype" style="font-size: 1rem">
+							  <option value="Set Type 1">Set Type 1</option>
+							  <option value="Set Type 2">Set Type 2</option>
+							  <option value="Set Type 3">Set Type 3</option>
+							  <option value="Set Type 4">Set Type 4</option>
+							  <option value="Set Type 5">Set Type 5</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-6 col-lg-6">
+								<input class="btn btn-lg btn-primary btn-block" type="submit" value="Print" required>
+							</div>
+							<div class="col-md-6 col-lg-6">
+								<input class="btn btn-lg btn-primary btn-block" type="button" ng-click="userCtrl.goprintPage()" value="Cancel" required>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+

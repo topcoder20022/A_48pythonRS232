@@ -189,6 +189,19 @@ myApp.controller('userController',['$http','$stateParams','apiService','$rootSco
 		});
 	}
 
+	this.printTargets=()=>{
+		const currentTimeInMilliseconds=Date.now();
+		var printtargetsData={
+			settype			: user.settype,
+			printtargets    : user.printtargets,
+			barcodeid		: currentTimeInMilliseconds
+		}
+
+		apiService.printTargets(printtargetsData).then(function successCallback(response){
+			alert("Printed Barcode : " + currentTimeInMilliseconds)
+		})
+	}
+
 	//function to send resetpassword request
 	this.sendOtpToEmail=()=>{
 	user.notify='';
@@ -267,6 +280,10 @@ myApp.controller('userController',['$http','$stateParams','apiService','$rootSco
 
 	this.gomemberList=()=> {
 		$location.path('/dashboard/view-members');
+	};
+
+	this.goprintPage=()=> {
+		$location.path('/dashboard/targets');
 	};
 
 	this.goStudentList=()=> {

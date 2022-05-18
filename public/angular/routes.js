@@ -65,6 +65,11 @@ myApp.config(['$stateProvider','$urlRouterProvider','$locationProvider', functio
         templateUrl    : 'views/add-member.html',
         controller   : 'userController as userCtrl'     
     })
+    .state('dashboard.targets',{
+        url            : '/targets',
+        templateUrl    : 'views/print-targets.html',
+        controller   : 'userController as userCtrl'     
+    })
     .state('dashboard.addadmin',{
         url            : '/addadmin',
         templateUrl    : 'views/add-admin.html',

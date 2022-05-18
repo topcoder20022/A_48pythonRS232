@@ -71,11 +71,15 @@ myApp.factory('apiService',($http,authService,$window, $q)=>{
         return $http.put('/user/edit/' + data._id + '?token=' + authService.getToken(), data);
     }
 
-     //requests to get the entire performances 
+    //requests to get the entire performances 
     requests.getallperformances =  () =>{
         return $http.get('/user/all/performances?token=' + authService.getToken());
     }
 
+    //requests to print barcode
+    requests.printTargets = (printtargetsData) =>{
+        return $http.post('/printtargets', printtargetsData);
+    }
 
     return requests;
 

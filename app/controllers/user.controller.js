@@ -12,6 +12,7 @@ const userModel = mongoose.model('User');
 // const tqModel = mongoose.model('Devtestquestion');
 const tpModel = mongoose.model('Testparam');
 const performanceModel = mongoose.model('Performance');
+const ptModel = mongoose.model('Printtargets');
 //libraries and middlewares
 const config = require('./../../config/config.js');
 const responseGenerator = require('./../../libs/responseGenerator');
@@ -434,6 +435,25 @@ module.exports.controller=(app)=>{
 			}
 		});
 	});
+
+	//route to print targets
+	userRouter.post('/printtargets',(req,res)=>{
+		const newPrinttargets = new ptModel({
+			barcodeid		: req.body.barcodeid,
+			settype			: req.body.settype,
+			printedtargets	: req.body.printtargets,
+		});
+		newPrinttargets.save(function (err, newPrinttargets) {
+			if (err) {
+				const response = responseGenerator.generate(true, "Error printing targets.Please try again!", 500, null);
+				res.send(response);
+
+			} else {
+				const response = responseGenerator.generate(true, "Targets printed successfully!", 200, null);
+				res.send(response);
+			}
+		})
+	})
 
  	app.use('/',userRouter);
 };
