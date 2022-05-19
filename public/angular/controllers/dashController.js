@@ -156,6 +156,11 @@ myApp.controller('dashController',['$http','$q','apiService','authService','$roo
 	};
 
 	this.editUsers = (role, new_user) => {
+		console.log("======new_user=======", new_user)
+		var dd = String(new_user.birthday.getDate()).padStart(2, '0');
+		var mm = String(new_user.birthday.getMonth() + 1).padStart(2, '0'); //January is 0!
+		var yyyy = new_user.birthday.getFullYear();
+		new_user.birthday = yyyy + '-' + mm + '-' + dd;
 		apiService.editUser(new_user).then(function successCallBack(response){
 			if (role == 'member') {
 				$location.path('dashboard/view-members')

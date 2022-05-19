@@ -17,6 +17,7 @@ const userSchema = new Schema({
     student_id       : {type: String },
     sex              : {type: String },
     birthday         : {type: String },
+    age              : {type: String },
     student_ip       : {type: String },
     created: {
         type: Date,

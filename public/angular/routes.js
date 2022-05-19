@@ -70,6 +70,11 @@ myApp.config(['$stateProvider','$urlRouterProvider','$locationProvider', functio
         templateUrl    : 'views/print-targets.html',
         controller   : 'userController as userCtrl'     
     })
+    .state('dashboard.events',{
+        url            : '/events',
+        templateUrl    : 'views/manage-events.html',
+        controller   : 'testController as testCtrl'     
+    })
     .state('dashboard.addadmin',{
         url            : '/addadmin',
         templateUrl    : 'views/add-admin.html',

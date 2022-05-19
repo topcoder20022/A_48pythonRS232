@@ -2,6 +2,9 @@ myApp.controller('testController',['$http','$q','$window','$stateParams','$filte
 	
 	var test = this;
 	this.tests=[];
+	test.eventnamedate = '';
+	test.disable_discipline = true;
+	test.events = [];
 	test.areas=[];
 	test.subjects=[];
 	test.courses=[];
@@ -91,6 +94,103 @@ myApp.controller('testController',['$http','$q','$window','$stateParams','$filte
 			console.log(response); 
 		});
 	};
+
+	this.saveevent = ()=> {
+		console.log("new_event", test.eventdate);
+		// var eventdate = test.eventdate.getFullYear() + '-' + test.eventdate.getMonth() + '-' + test.eventdate.getDay()
+		var dd = String(test.eventdate.getDate()).padStart(2, '0');
+		var mm = String(test.eventdate.getMonth() + 1).padStart(2, '0'); //January is 0!
+		var yyyy = test.eventdate.getFullYear();
+		var eventdate = yyyy + '-' + mm + '-' + dd;
+
+		event = {
+			eventname	: test.eventname,
+			eventdate	: eventdate,
+		}
+		apiService.addEvent(event).then(function successCallBack(response){
+			// console.log("response.data", response.data)
+			$rootScope.test = response.data;
+			$("#eventModal").modal('hide');
+			apiService.getEvents().then(function successCallback(response){
+				var events=response.data.data;
+				events.forEach(function(event){
+					test.events.push(event.eventdate + " - " + event.eventname);
+				});
+				test.events = [...new Set(test.events)]
+				$location.path('/dashboard/events');
+			})
+			
+		},
+		function errorCallback(response) {
+			alert("some error occurred. Check the console.");
+			console.log(response); 
+		});
+	};
+
+
+	this.eventnamedatef=(data)=>{
+		test.disable_discipline = false;
+		test.eventnamedate = data;
+		apiService.getDiciplines(data).then(function successCallback(response){
+			test.diciplines_event = response.data.data;
+		})
+	}
+
+	//function to get events
+	this.getevents=()=>{
+		apiService.getEvents().then(function successCallback(response){
+			var events=response.data.data;
+			events.forEach(function(event){
+				test.events.push(event.eventdate + " - " + event.eventname);
+			});
+			test.events = [...new Set(test.events)]
+		})
+	}
+
+	this.savediscipline = ()=> {
+		console.log("new_discipline", test.discipline);
+		eventdate = test.eventnamedate.split(" - ")[0]
+		eventname = test.eventnamedate.split(" - ")[1]
+		discipline = {
+			discipline	: test.discipline,
+			eventdate	: eventdate,
+			eventname	: eventname
+		}
+		apiService.addDiscipline(discipline).then(function successCallBack(response){
+			console.log("response.data", response.data)
+			$rootScope.test = response.data;
+			$("#disciplineModal").modal('hide');
+			apiService.getDiciplines(test.eventnamedate).then(function successCallback(response){
+				test.diciplines_event = response.data.data;
+			})
+		},
+		function errorCallback(response) {
+			alert("some error occurred. Check the console.");
+			console.log(response); 
+		});
+	};
+
+	this.delevent=()=>{
+		data = {
+			eventnamedate : test.eventnamedate
+		}
+		apiService.delEvent(data).then(function successCallback(response){
+			$rootScope.test = response.data;
+			$("#eventdeleteModal").modal('hide');
+			apiService.getEvents().then(function successCallback(response){
+				var events=response.data.data;
+				events.forEach(function(event){
+					test.events.push(event.eventdate + " - " + event.eventname);
+				});
+				test.events = [...new Set(test.events)]
+				$location.path('/dashboard/events');
+			})
+		},
+		function errorCallback(response) {
+			alert("some error occurred. Check the console.");
+			console.log(response); 
+		});
+	}
 
 	
 }]);

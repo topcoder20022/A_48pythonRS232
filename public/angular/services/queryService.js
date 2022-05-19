@@ -81,6 +81,32 @@ myApp.factory('apiService',($http,authService,$window, $q)=>{
         return $http.post('/printtargets', printtargetsData);
     }
 
+    //requests to add event
+    requests.addEvent = (event) =>{
+        return $http.post('/addevent', event);
+    }
+
+    //requests to add discipline
+    requests.addDiscipline = (discipline) =>{
+        return $http.post('/adddiscipline', discipline);
+    }
+
+    //requests to get events
+    requests.getEvents=()=>{
+        return $http.get('/user/allevents?token='+authService.getToken() , null);
+    }
+
+    //requests to get diciplines
+    requests.getDiciplines=(data)=>{
+        return $http.get('/user/alldiciplines/' + data + '?token='+authService.getToken() , null);
+    }
+
+    //requests to delete event
+    requests.delEvent = (eventnamedate) =>{
+        console.log("--eventnamedate-------", eventnamedate)
+        return $http.post('/delevent', eventnamedate);
+    }
+
     return requests;
 
 });

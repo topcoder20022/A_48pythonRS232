@@ -14,6 +14,7 @@
             <th scope="col">Email</th>
             <th scope="col">Sex</th>
             <th scope="col">Birthday</th>
+            <th scope="col">Age</th>
             <th scope="col">Address</th>
             <th scope="col">City</th>
             <th scope="col">Zip Code</th>
@@ -30,6 +31,8 @@
             <td ng-if="!user.sex"><a>NA</a></td>
             <td ng-if="user.birthday"><a>{{user.birthday}}</a></td>
             <td ng-if="!user.birthday"><a>NA</a></td>
+            <td ng-if="user.age"><a>{{user.age}}</a></td>
+            <td ng-if="!user.age"><a>NA</a></td>
             <td ng-if="user.address"><a>{{user.address}}</a></td>
             <td ng-if="!user.address"><a>NA</a></td>
             <td ng-if="user.city"><a>{{user.city}}</a></td>

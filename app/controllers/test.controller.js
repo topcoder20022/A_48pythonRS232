@@ -8,6 +8,7 @@ const passport = require('passport');
 const testRouter  = express.Router();
 const userModel = mongoose.model('User');
 const performanceModel = mongoose.model('Performance');
+const eventModel = mongoose.model('Event');
 
 const devtestquestionModel = mongoose.model('Devtestquestion');
 const newtestquestionModel = mongoose.model('Newtestquestion');
@@ -147,13 +148,18 @@ module.exports.controller = (app)=>{
 
 	//route to get the all  users
 	testRouter.put('/edit/:uid',(req,res)=>{
-
+		age = parseInt(new Date().getFullYear()) - parseInt(req.body.birthday.substr(0, 4));
 		var user = {
-			'name': req.body.firstname + ' ' + req.body.lastname,
-			'email': req.body.email,
-			'department': req.body.department,
-			'role': req.body.role,
-			'institution': req.body.institution
+			'name'		: req.body.firstname + ' ' + req.body.lastname,
+			'initials'  : req.body.initials,
+			'email'		: req.body.email,
+			'sex'		: req.body.sex,
+			'birthday'  : req.body.birthday,
+			'age'		: age,
+			'address'   : req.body.address,
+			'city'		: req.body.city,
+			'zipcode'	: req.body.zipcode,
+			'role'		: req.body.role,
 		}
 		userModel.findOneAndUpdate({'_id': req.params.uid}, user, (err,user)=>{
 			if (err) {
@@ -283,6 +289,48 @@ module.exports.controller = (app)=>{
 		});
 	});
 
+	testRouter.get('/allevents',(req,res)=>{
+		eventModel.find({
+			
+		},  (err, result)=> {
+			if (err) {
+				let response = responseGenerator.generate(true, "Some Internal Error", 500, null);
+				res.send(response);
+			} else if (!result) {
+				let response = responseGenerator.generate(false, "No Events Available", 200, result);
+				res.send(response);
+			} else {
+				let response = responseGenerator.generate(false, "Events Available", 200, result);
+				res.send(response);
+			}
+		});
+	})
+
+	testRouter.get('/alldiciplines/:eventnamedate',(req,res)=>{
+		eventdate = req.params.eventnamedate.split(" - ")[0];
+		eventname = req.params.eventnamedate.split(" - ")[1];
+		var diciplines = [];
+		eventModel.find({'eventdate': eventdate, 'eventname': eventname},  (err, result)=> {
+			if (err) {
+				let response = responseGenerator.generate(true, "Some Internal Error", 500, null);
+				res.send(response);
+			} else if (!result) {
+				let response = responseGenerator.generate(false, "No Events Available", 200, result);
+				res.send(response);
+			} else {
+				result.forEach(item=> {
+					diciplines.push(item.discipline)
+				})
+				var filtered = diciplines.filter(function (el) {
+				 	return el != null;
+				});
+				let response = responseGenerator.generate(false, "Events Available", 200, filtered);
+				res.send(response);
+			}
+		});
+	})
+
+	
 	app.use('/user',auth.verifyToken,testRouter);	
 }
 

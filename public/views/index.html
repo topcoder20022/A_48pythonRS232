@@ -4,17 +4,10 @@
 <div class="row" ng-if="role == 'Administrator'" ng-init="dashCtrl.getAllstudents()">
   <div class="col-xl-4">
       <div class="stats stats-primary stats_primary1">
-          <h3 class="stats-title"> Students </h3>
+          <h3 class="stats-title"> Admin </h3>
           <div class="stats-content">
               <div class="stats-icon">
-                  <a ui-sref="dashboard.students"><i class="fa fas fa-users"></i></a>
-              </div>
-              <div class="stats-data">
-                  <div class="stats-number">{{dashCtrl.allstudents.length}}</div>
-                  <div class="stats-change">
-                      <span class="stats-percentage">+25%</span>
-                      <span class="stats-timeframe">from last month</span>
-                  </div>
+                  <a ui-sref="dashboard.students"><i class="fa fa-fw fa-user"></i></a>
               </div>
           </div>
       </div>
@@ -24,31 +17,17 @@
           <h3 class="stats-title"> members </h3>
           <div class="stats-content">
               <div class="stats-icon">
-                  <a ui-sref="dashboard.members"><i class="fa fas fa-graduation-cap"></i></a>
-              </div>
-              <div class="stats-data">
-                  <div class="stats-number">{{memberArrayLength}}</div>
-                  <div class="stats-change">
-                      <span class="stats-percentage">+17.5%</span>
-                      <span class="stats-timeframe">from last month</span>
-                  </div>
+                  <a ui-sref="dashboard.members"><i class="fa fas fa-users"></i></a>
               </div>
           </div>
       </div>
   </div>
   <div class="col-xl-4">
       <div class="stats stats-danger stats_danger1">
-          <h3 class="stats-title"> Tests </h3>
+          <h3 class="stats-title"> Events </h3>
           <div class="stats-content">
               <div class="stats-icon">
-                  <a ui-sref="dashboard.testquestions"><i class="fa fas fa-laptop"></i></a>
-              </div>
-              <div class="stats-data">
-                  <div class="stats-number">{{testArrayLength}}</div>
-                  <div class="stats-change">
-                      <span class="stats-percentage">+17.5%</span>
-                      <span class="stats-timeframe">from last month</span>
-                  </div>
+                  <a ui-sref="dashboard.testquestions"><i class="fa fa-solid fa-bullseye"></i></a>
               </div>
           </div>
       </div>

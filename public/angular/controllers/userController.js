@@ -1,4 +1,4 @@
-myApp.controller('userController',['$http','$stateParams','apiService','$rootScope','authService','$location','$window',function($http,$stateParams,apiService,$rootScope,authService,$location,$window){
+myApp.controller('userController',['$http','$stateParams','apiService','$rootScope','authService','$location','$window','$state',function($http,$stateParams,apiService,$rootScope,authService,$location,$window,$state){
 
 	var user = this;
 	var token=$stateParams.token;
@@ -9,7 +9,9 @@ myApp.controller('userController',['$http','$stateParams','apiService','$rootSco
 	this.mismatch_password=false;
 	this.showPasswordResetForm=false;
 	this.token = token;
-	
+	this.events = [];
+	// this.values = 
+		
 	//clear the form after submit
 	this.resetForm=()=>{
 		user.firstname='';
@@ -139,14 +141,21 @@ myApp.controller('userController',['$http','$stateParams','apiService','$rootSco
 	};
 
 	this.registerUsers=(role)=>{
-		if (role == 'member') {
+		if (role == 'member') {			
+			// var basday = user.birthday.getFullYear() + '-' + user.birthday.getMonth() + '-' + user.birthday.getDay()
+			var dd = String(user.birthday.getDate()).padStart(2, '0');
+			var mm = String(user.birthday.getMonth() + 1).padStart(2, '0'); //January is 0!
+			var yyyy = user.birthday.getFullYear();
+			var basday = yyyy + '-' + mm + '-' + dd;
+			user.age = parseInt(new Date().getFullYear()) - parseInt(user.birthday.getFullYear());
 			var userData={
 				name	  : user.firstname+' '+user.lastname,
 				initials  : user.initials,
 				email	  : user.email,
 				role	  : role,
 				sex		  : user.sex,
-				birthday  : user.birthday,
+				birthday  : basday,
+				age  	  : user.age,
 				address   : user.address,
 				city	  : user.city,
 				zipcode	  : user.zipcode,
@@ -192,16 +201,23 @@ myApp.controller('userController',['$http','$stateParams','apiService','$rootSco
 	this.printTargets=()=>{
 		const currentTimeInMilliseconds=Date.now();
 		var printtargetsData={
+			setstoprint     : user.setstoprint,
 			settype			: user.settype,
-			printtargets    : user.printtargets,
 			barcodeid		: currentTimeInMilliseconds
 		}
-
+		console.log("===printtargetsData====", printtargetsData)
 		apiService.printTargets(printtargetsData).then(function successCallback(response){
-			alert("Printed Barcode : " + currentTimeInMilliseconds)
+			// alert("Printed Barcode : " + currentTimeInMilliseconds)
+			$("#printedModal").modal('show');
 		})
 	}
 
+	this.setstoprintf=(d)=>{
+		console.log("===data====", d)
+		// user.setstoprint = data;
+	}
+
+	
 	//function to send resetpassword request
 	this.sendOtpToEmail=()=>{
 	user.notify='';

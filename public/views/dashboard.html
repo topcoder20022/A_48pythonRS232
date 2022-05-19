@@ -10,7 +10,7 @@
     <ul class=" navbar-nav navbar-sidenav" id="exampleAccordion">
       <!-- Photo of User -->
       <li class="nav-item" data-toggle="tooltip" data-placement="right">
-        <a class="nav-link" ui-sref="dashboard.userprofile">
+        <a class="nav-link" ui-sref="dashboard.index">
           <img src="/img/logo.png" class="dash_photo" style="width: 50%;">
         </a>
       </li>
@@ -43,7 +43,7 @@
       </li>
       <li ng-if="role == 'Administrator'" class="nav-item" data-toggle="tooltip" data-placement="right" title="Member Operations">
         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" data-target="#collapseMemberPages" data-parent="#exampleAccordion">
-          <i class="fa fa-fw fa-graduation-cap"></i>
+          <i class="fa fa-fw fa-users"></i>
           <span class="nav-link-text">Member Page</span>
         </a>
         <ul class="sidenav-second-level collapse" id="collapseMemberPages">
@@ -63,7 +63,7 @@
       </li>
       <li ng-if="role == 'Administrator'" class="nav-item" data-toggle="tooltip" data-placement="right" title="Device Operations">
         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" data-target="#collapseDevicePages" data-parent="#exampleAccordion">
-          <i class="fa fa-fw fa-graduation-cap"></i>
+          <i class="fa fa-solid fa-bullseye"></i>
           <span class="nav-link-text">Device Page</span>
         </a>
         <ul class="sidenav-second-level collapse" id="collapseDevicePages">
@@ -80,12 +80,6 @@
             </a>
           </li>
         </ul>
-      </li>
-      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Course Operations">
-        <a class="nav-link" ui-sref="dashboard.userprofile">
-          <i class="fa fa-fw fa-address-book-o"></i>
-          <span class="nav-link-text">User Profile</span>
-        </a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">

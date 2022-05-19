@@ -13,6 +13,7 @@ const userModel = mongoose.model('User');
 const tpModel = mongoose.model('Testparam');
 const performanceModel = mongoose.model('Performance');
 const ptModel = mongoose.model('Printtargets');
+const eventModel = mongoose.model('Event');
 //libraries and middlewares
 const config = require('./../../config/config.js');
 const responseGenerator = require('./../../libs/responseGenerator');
@@ -47,6 +48,25 @@ const invoice = {
 	paid: 0,
 	invoice_nr: 1234
 };
+
+async function printtargets(settype, setstoprint, barcodeid, res){
+	let newPrinttargets_array = [];
+	for (var i = parseInt(setstoprint); i > 0; i--) {
+		for (var j = parseInt(settype); j > 0; j--) {
+			var newPrinttargets = new ptModel({
+				barcodeid		: barcodeid,
+				settype			: settype,
+				setstoprint		: setstoprint,
+			});
+			newPrinttargets_array.push(newPrinttargets)
+			
+		}
+		barcodeid = (parseInt(barcodeid) + 1).toString();
+	}
+	await ptModel.insertMany(newPrinttargets_array);
+	const response = responseGenerator.generate(true, "Targets printed successfully!", 200, null);
+	await res.send(response);
+}
 
 function createInvoice(invoice, path) {
 	let doc = new PDFDocument({ margin: 50 });
@@ -173,6 +193,7 @@ module.exports.controller=(app)=>{
 					password	: req.body.password,
 					sex			: req.body.sex,
 					birthday	: req.body.birthday,
+					age			: req.body.age,
 					address		: req.body.address,
 					city		: req.body.city,
 					zipcode		: req.body.zipcode
@@ -438,22 +459,84 @@ module.exports.controller=(app)=>{
 
 	//route to print targets
 	userRouter.post('/printtargets',(req,res)=>{
-		const newPrinttargets = new ptModel({
-			barcodeid		: req.body.barcodeid,
-			settype			: req.body.settype,
-			printedtargets	: req.body.printtargets,
+		// var barcodeid = req.body.barcodeid;
+		// console.log('=====', req.body)
+		// for (var i = parseInt(req.body.settype); i > 0; i--) {
+		// 	for (var j = parseInt(req.body.setstoprint); j > 0; j--) {
+		// 		const newPrinttargets = new ptModel({
+		// 			barcodeid		: barcodeid,
+		// 			settype			: req.body.settype,
+		// 			setstoprint		: req.body.setstoprint,
+		// 		});
+		// 		newPrinttargets.save(function (err, newPrinttargets) {
+		// 			if (err) {
+		// 				const response = responseGenerator.generate(true, "Error printing targets.Please try again!", 500, null);
+		// 			} else {
+		// 				const response = responseGenerator.generate(true, "Targets printed successfully!", 200, null);
+		// 			}
+		// 			console.log('==11===', barcodeid)
+		// 		})
+		// 	}
+		// 	barcodeid = (parseInt(barcodeid) + 1).toString();
+		// 	console.log('==22===', barcodeid)
+		// }
+		// res.send(response);
+
+		
+		printtargets(req.body.settype, req.body.setstoprint, req.body.barcodeid, res)
+	})
+
+	//route to events
+	userRouter.post('/addevent',(req,res)=>{
+		const newEvent = new eventModel({
+			eventname		: req.body.eventname,
+			eventdate			: req.body.eventdate
 		});
-		newPrinttargets.save(function (err, newPrinttargets) {
+		newEvent.save(function (err, newPrinttargets) {
 			if (err) {
-				const response = responseGenerator.generate(true, "Error printing targets.Please try again!", 500, null);
+				const response = responseGenerator.generate(true, "Error saving event.Please try again!", 500, null);
 				res.send(response);
 
 			} else {
-				const response = responseGenerator.generate(true, "Targets printed successfully!", 200, null);
+				const response = responseGenerator.generate(true, "Event saved successfully!", 200, null);
 				res.send(response);
 			}
 		})
 	})
+
+	//route to events
+	userRouter.post('/adddiscipline',(req,res)=>{
+		const newEvent = new eventModel({
+			eventname		: req.body.eventname,
+			eventdate			: req.body.eventdate,
+			discipline			: req.body.discipline,
+		});
+		newEvent.save(function (err, newPrinttargets) {
+			if (err) {
+				const response = responseGenerator.generate(true, "Error saving event.Please try again!", 500, null);
+				res.send(response);
+
+			} else {
+				const response = responseGenerator.generate(true, "Event saved successfully!", 200, null);
+				res.send(response);
+			}
+		})
+	})
+
+	userRouter.post('/delevent',(req,res)=>{
+		eventdate = req.body.eventnamedate.split(" - ")[0];
+		eventname = req.body.eventnamedate.split(" - ")[1];
+		eventModel.deleteMany({'eventdate': eventdate, 'eventname': eventname},  (err)=> {
+			if (err) {
+				let response = responseGenerator.generate(true, "Some Internal Error", 500, null);
+				res.send(response);
+			} else {
+				let response = responseGenerator.generate(false, "Event Deleted", 200, null);
+				res.send(response);
+			}
+		});
+	})
+
 
  	app.use('/',userRouter);
 };
