@@ -28,7 +28,7 @@
 						<div class="col-md-6 col-lg-6">
 							<select class="form-control dual_select" style="height: auto;" size="20">
 								<option value="" disabled style="color: green;">Diciplines</option>
-								<option ng-repeat="dicipline_event in testCtrl.diciplines_event" disabled>{{dicipline_event}}</option>
+								<option ng-repeat="dicipline_event in testCtrl.diciplines_event" ng-click="testCtrl.dicipline_active(dicipline_event)">{{dicipline_event}}</option>
 							</select>
 						</div>
 					</div>	
@@ -37,6 +37,9 @@
 					<div class="row">
 						<div class="col-md-6 col-lg-6">
 							<button type="button" data-toggle="modal" data-target="#eventdeleteModal" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i>  Delete selected event</button></a>
+						</div>
+						<div class="col-md-6 col-lg-6">
+							<button type="button" ng-disabled="testCtrl.disable_del_discipline" ng-click="testCtrl.delDiscipline()" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i>  Delete selected discipline</button></a>
 						</div>
 					</div>	
 				</div>
@@ -84,7 +87,14 @@
       </div>
       <div class="modal-body" style="font-size:20px; padding: 2rem">
 		<div class="row mt-3">
-			<div class="col-md-12"><label class="labels">Discipline</label><input type="text" class="form-control" placeholder="enter discipline" ng-model="testCtrl.discipline" value="discipline"></div>
+			<div class="col-md-12"><label class="labels">Discipline</label>
+				<!-- <input type="text" class="form-control" placeholder="enter discipline" ng-model="testCtrl.discipline" value="discipline"> -->
+				<select class="form-control dual_select col-md-7" ng-model="testCtrl.discipline" style="font-size: 1rem">
+					<option value="discipline 1">discipline 1</option>
+					<option value="discipline 2">discipline 2</option>
+					<option value="discipline 3">discipline 3</option>
+				</select>
+			</div>
 		</div>
       </div>
       <div class="modal-footer">

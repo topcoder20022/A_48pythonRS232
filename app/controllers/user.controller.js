@@ -537,6 +537,20 @@ module.exports.controller=(app)=>{
 		});
 	})
 
+	userRouter.post('/deldiscipline',(req,res)=>{
+		eventdate = req.body.eventnamedate.split(" - ")[0];
+		eventname = req.body.eventnamedate.split(" - ")[1];
+		eventModel.findOneAndRemove({'eventdate': eventdate, 'eventname': eventname, 'discipline': req.body.discipline},  (err)=> {
+			if (err) {
+				let response = responseGenerator.generate(true, "Some Internal Error", 500, null);
+				res.send(response);
+			} else {
+				let response = responseGenerator.generate(false, "Discipline Deleted", 200, null);
+				res.send(response);
+			}
+		});
+	})
+
 
  	app.use('/',userRouter);
 };

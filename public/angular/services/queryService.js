@@ -103,8 +103,13 @@ myApp.factory('apiService',($http,authService,$window, $q)=>{
 
     //requests to delete event
     requests.delEvent = (eventnamedate) =>{
-        console.log("--eventnamedate-------", eventnamedate)
         return $http.post('/delevent', eventnamedate);
+    }
+
+    //requests to delete event
+    requests.delDiscipline = (data) =>{
+        console.log("--data-------", data)
+        return $http.post('/deldiscipline', data);
     }
 
     return requests;

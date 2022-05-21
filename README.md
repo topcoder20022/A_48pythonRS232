@@ -1,7 +1,3 @@
-<!-- # e8_andrey
-Shared drive with Andrey for E8 project
- -->
-# An Online Test System combined with Python AI Engine
 
 ### Prerequisites
 
@@ -19,16 +15,6 @@ Setting Prerequisites
 
 ```
 
-Setting up the local server
-
-```
-1) Clone the repository from https://github.com/bfree67/e8_andrey
-2) Open terminal and change its location the where you cloned the repo
-3) Run command npm install
-4) After all dependencies are installed. Run command : node app.js, in your terminal
-5) let the server start
-```
-
 Getting started
 
 ```
@@ -44,9 +30,3 @@ Getting started
 * Node Js
 * MongoDB
 
-
-## Authors
-
-* **Brain Free and Andrey Nosov** 
-
-- Add report page

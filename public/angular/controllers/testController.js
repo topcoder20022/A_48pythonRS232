@@ -4,6 +4,7 @@ myApp.controller('testController',['$http','$q','$window','$stateParams','$filte
 	this.tests=[];
 	test.eventnamedate = '';
 	test.disable_discipline = true;
+	test.disable_del_discipline = true;
 	test.events = [];
 	test.areas=[];
 	test.subjects=[];
@@ -136,6 +137,12 @@ myApp.controller('testController',['$http','$q','$window','$stateParams','$filte
 		})
 	}
 
+	this.dicipline_active=(discipline)=>{
+		test.disable_del_discipline = false;
+		test.discipline = discipline;
+		console.log("--------", test.discipline)
+	}
+
 	//function to get events
 	this.getevents=()=>{
 		apiService.getEvents().then(function successCallback(response){
@@ -184,6 +191,22 @@ myApp.controller('testController',['$http','$q','$window','$stateParams','$filte
 				});
 				test.events = [...new Set(test.events)]
 				$location.path('/dashboard/events');
+			})
+		},
+		function errorCallback(response) {
+			alert("some error occurred. Check the console.");
+			console.log(response); 
+		});
+	}
+
+	this.delDiscipline=()=>{
+		var data = {
+			discipline 		: test.discipline,
+			eventnamedate   : test.eventnamedate
+		}
+		apiService.delDiscipline(data).then(function successCallback(response){
+			apiService.getDiciplines(test.eventnamedate).then(function successCallback(response){
+				test.diciplines_event = response.data.data;
 			})
 		},
 		function errorCallback(response) {
